@@ -8,4 +8,10 @@ function subtract(...numbers) {
     const difference = numbers.reduce((previousNumber, nextNumber) => 
         previousNumber - nextNumber);
     return difference;
-}
+};
+
+function multiply(...numbers) {
+    let product = 1;
+    for(const number of numbers) product = product * number;
+    return product;
+};

@@ -7,6 +7,7 @@ This application will recieve user input from an html calculator, process the eq
 Challenges:
 1. using the effecient solution
     I often find my solutions are needlessly complex, so I aim to utilize concise solution that are as efficient as possible
+    I will utilize different tools to create similar functions to both practice and display aptitude of syntax
 2. chaining functions and methods
 
 
