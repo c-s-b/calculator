@@ -20,4 +20,19 @@ function divide( ...numbers ) {
     const quotient = numbers.reduce((previousNumber, nextNumber) =>
         previousNumber/nextNumber );
     return quotient;
+};
+
+function operate( number1 = null, operator , number2 = null ) {
+    switch(operator) {
+        case "+": 
+            return add( number1, number2 );   
+        case "-":
+            return subtract( number1, number2 );
+        case "*":
+            return multiply( number1, number2 );
+        case "/":
+            return divide( number1, number2 );
+        default:
+            return "Oops, Missing Something!";
+    };
 }
