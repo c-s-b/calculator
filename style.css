@@ -1,0 +1,102 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+}
+
+main {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+#calculator {
+    border: solid;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-image: linear-gradient(rgb(32, 32, 34), rgb(194, 197, 206));
+    box-shadow: 5px 5px 3px;
+    border-radius: 20px;
+}
+
+#top {
+    flex: 1;
+}
+
+#display {
+    height: 100px;
+    margin: 30px 20px 20px 20px;
+    border: solid;
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+    border: solid thick;
+    background-color: rgb(196, 192, 192)
+}
+
+span{
+    flex: 1;
+    text-align: end;
+    font-size: 90px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+#clear-back {
+    display: flex;
+}
+
+#clear {
+    flex: 2;
+}
+
+#onetonine {
+    display: flex;
+    flex-flow: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#middle {
+    display: flex;
+    flex: 2;
+}
+
+.middle-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+#bottom {
+    display: flex;
+    align-content: space-between;
+    flex: 1;
+}
+
+
+#zero {
+    flex: 3;
+}
+
+button {
+    min-width : 100px;
+    min-height: 75px;
+    margin: 20px;
+    font-size: 50px;
+    font-weight: bold;
+    font-family: monospace;
+    background-image:
+    linear-gradient(#a56f6d, #813126);
+    box-shadow: 1px 1px 3px;
+    border-radius: 8px;
+}
