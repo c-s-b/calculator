@@ -21,7 +21,7 @@ function divide( ...numbers ) {
         previousNumber/nextNumber );
     return quotient;
 };
-
+//number parameters default to null to avoid NaN output
 function operate( number1 = null, operator , number2 = null ) {
     switch(operator) {
         case "+": 
@@ -36,3 +36,20 @@ function operate( number1 = null, operator , number2 = null ) {
             return "Oops, Missing Something!";
     };
 }
+
+function clickANumber () {
+    const numberButton = [...document.querySelectorAll(".number-button")];
+    const display = document.querySelector(".result");
+    let selections = [];
+    let number = 0;
+
+    numberButton.forEach(button => button.addEventListener("click", () => {
+        selections.push(button.textContent); //textContent is the number listed on each button
+        number = selections.join("");
+        console.log(number);
+        display.textContent = number;
+    }));
+    return number;
+}
+
+console.log(clickANumber());
