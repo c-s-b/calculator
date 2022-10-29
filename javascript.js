@@ -35,21 +35,46 @@ function operate( number1 = null, operator , number2 = null ) {
         default:
             return "Oops, Missing Something!";
     };
+    
 }
 
-function clickANumber () {
+function clickAButton () {
     const numberButton = [...document.querySelectorAll(".number-button")];
+    const operatorButton = [...document.querySelectorAll(".operator-button")];
+    const equals = document.querySelector(".equals");
     const display = document.querySelector(".result");
-    let selections = [];
+    let incompleteNumber = [];
+    let operation = [];
     let number = 0;
 
     numberButton.forEach(button => button.addEventListener("click", () => {
-        selections.push(button.textContent); //textContent is the number listed on each button
-        number = selections.join("");
-        console.log(number);
+        incompleteNumber.push(button.textContent); //textContent is the number listed on each button
+        number = parseInt(incompleteNumber.join(""));
         display.textContent = number;
     }));
-    return number;
+
+    operatorButton.forEach(button => button.addEventListener("click", () => {
+        operation.push(number);
+        if(operation.length < 2 ) operation.push(button.textContent); //textContent is the operator listed on each button
+        console.log(operation);
+        number = 0;
+        incompleteNumber = [];
+    }));
+
+    equals.addEventListener("click", () => {
+        operation.push(number);
+        operation = [displayResult(operation)];
+        console.log(operation);
+        number = 0;
+        incompleteNumber = [];
+    });
 }
 
-console.log(clickANumber());
+function displayResult(operation) {
+    result = operate(operation[0], operation[1], operation[2]);
+    document.querySelector(".result").textContent = result;
+    return result;
+}
+
+
+clickAButton();
