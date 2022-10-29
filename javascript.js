@@ -61,7 +61,12 @@ function clickAButton (previousResult = 0) {
         display.textContent = number;
     }));
 
-    
+    decimalButton.addEventListener("click", () => {
+        incompleteNumber.push(decimalButton.textContent); //textContent is the number listed on each button
+        number = parseFloat(incompleteNumber.join(""));
+        display.textContent = number;
+    }, {once : true})
+
     operatorButton.forEach(button => button.addEventListener("click", () => {
         operation.push(number);
         if(operation.length < 2 ) operation.push(button.textContent); //textContent is the operator listed on each button
