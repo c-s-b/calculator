@@ -33,19 +33,19 @@ function operate( number1 = null, operator , number2 = null ) {
         case "/":
             return divide( number1, number2 );
         default:
-            return "Oops, Missing Something!";
+            return number1;
     };
     
 }
 
-function clickAButton () {
+function clickAButton (previousResult) {
     const numberButton = [...document.querySelectorAll(".number-button")];
     const operatorButton = [...document.querySelectorAll(".operator-button")];
     const equals = document.querySelector(".equals");
     const display = document.querySelector(".result");
     let incompleteNumber = [];
     let operation = [];
-    let number = 0;
+    let number = previousResult;
 
     numberButton.forEach(button => button.addEventListener("click", () => {
         incompleteNumber.push(button.textContent); //textContent is the number listed on each button
@@ -56,7 +56,6 @@ function clickAButton () {
     operatorButton.forEach(button => button.addEventListener("click", () => {
         operation.push(number);
         if(operation.length < 2 ) operation.push(button.textContent); //textContent is the operator listed on each button
-        console.log(operation);
         number = 0;
         incompleteNumber = [];
     }));
@@ -64,8 +63,6 @@ function clickAButton () {
     equals.addEventListener("click", () => {
         operation.push(number);
         operation = [displayResult(operation)];
-        console.log(operation);
-        number = 0;
         incompleteNumber = [];
     });
 }
@@ -73,7 +70,7 @@ function clickAButton () {
 function displayResult(operation) {
     result = operate(operation[0], operation[1], operation[2]);
     document.querySelector(".result").textContent = result;
-    return result;
+    clickAButton(result);
 }
 
 
