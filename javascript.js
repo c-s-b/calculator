@@ -22,7 +22,7 @@ function divide( ...numbers ) {
     return quotient;
 };
 //number parameters default to null to avoid NaN output
-function operate( number1 = null, operator , number2 = null ) {
+function operate( number1, operator , number2) {
     switch(operator) {
         case "+": 
             return add( number1, number2 );   
@@ -39,61 +39,77 @@ function operate( number1 = null, operator , number2 = null ) {
 }
 
 
-function clickAButton (previousResult = 0, lastOperatorPressed = null) {
+function clickAButton () {
     const numberButton = [...document.querySelectorAll(".number-button")];
     const operatorButton = [...document.querySelectorAll(".operator-button")];
     const equalsButton = document.querySelector(".equals");
-    const display = document.querySelector(".result");
     const clearButton = document.querySelector(".clear");
     const backspaceButton = document.querySelector(".backspace");
     const decimalButton = document.querySelector(".decimal");
     let incompleteNumber = [];
-    let operation = [];
-    let number = previousResult;
-
-    if(lastOperatorPressed !== null) {
-        operation = [previousResult, lastOperatorPressed]
-    }
+    let operation = {};
+    let currentNumber = 0;
+    let result;
 
     clearButton.addEventListener("click", () => clear());
 
-    backspaceButton.addEventListener("click", () => backspace(number))
+    backspaceButton.addEventListener("click", () => backspace(currentNumber))
 
     numberButton.forEach(button => button.addEventListener("click", () => {
-        incompleteNumber.push(button.textContent); //textContent is the number listed on each button
-        number = parseFloat(incompleteNumber.join(""));
-        display.textContent = number;
+        incompleteNumber.push(button.textContent);
+        currentNumber = parseFloat(incompleteNumber.join(""));
+        displayNumber(currentNumber);     
     }));
 
     decimalButton.addEventListener("click", () => {
         incompleteNumber.push(decimalButton.textContent); //textContent = "."
-        number = parseFloat(incompleteNumber.join(""));
-        display.textContent = number;
+        currentNumber = parseFloat(incompleteNumber.join(""));
+        displayNumber(currentNumber);    
     }, {once : true})
 
-    operatorButton.forEach(button => button.addEventListener("click", () => {
-        operation.push(number);
-        if(operation.length > 2 ) {
-        displayResult(operation, button.textContent)};
-        operation.push(button.textContent); //textContent is the operator listed on each button
-        incompleteNumber = [];
+    operatorButton.forEach(button => button.addEventListener("click", () => {  
+        if(!operation.number1){
+            operation.number1 = currentNumber;        
+            operation.operator = button.textContent     
+            incompleteNumber = [];//erases the stored keypresses prior to the operator
+            currentNumber = null; //will set number2 to null if multiple cosecutive operators are clicked
+        } else {
+            operation.number2 = currentNumber;
+            result = getResult(operation);
+            displayNumber(result)
+            operation = {};
+            operation.operator = button.textContent;
+            operation.number1 = result;
+            incompleteNumber = [];  //erases the stored keypresses prior to the operator
+            currentNumber = null; //will set number2 to null if multiple cosecutive operators are clicked
+        }
+
     }));
 
     equalsButton.addEventListener("click", () => {
-        operation.push(number);
-        operation = [displayResult(operation)];
-        incompleteNumber = [];
+        operation.number2 = currentNumber;
+        result = getResult(operation);
+        displayNumber(result);
+        operation = {};
+        operation.number1 = result;
+        incompleteNumber = [];//erases the stored keypresses prior to the operator
+        console.log(result);
     });  
-
-    return;
 
 }
 
-function displayResult(operation, lastOperatorPressed = null) {
-    result = operate(operation[0], operation[1], operation[2]);
-    document.querySelector(".result").textContent = result;
-    clickAButton(result, lastOperatorPressed);
-    return;
+function displayNumber(currentNumber) {
+    const display = document.querySelector(".result");
+    display.textContent = currentNumber;
+}
+
+function getResult(operation) {
+    if(operation.number2 !== null)  { //prevents getResult from evaluating same number twice
+    let result = operate(operation.number1, operation.operator, operation.number2);
+    return result;
+    } else {
+        return operation.number1;
+    };
 }
 
 function clear() {
@@ -102,10 +118,10 @@ function clear() {
     return;
 }
 
-function backspace(number) {
+function backspace(currentNumber) {
     const display = document.querySelector(".result");
     let newNumber = 0;
-    const removeLastDigit = Array.from(String(number));
+    const removeLastDigit = Array.from(String(currentNumber));
     removeLastDigit.pop();
 
     if(removeLastDigit.length > 0){
