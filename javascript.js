@@ -39,7 +39,7 @@ function operate( number1 = null, operator , number2 = null ) {
 }
 
 
-function clickAButton (previousResult = 0) {
+function clickAButton (previousResult = 0, lastOperatorPressed = null) {
     const numberButton = [...document.querySelectorAll(".number-button")];
     const operatorButton = [...document.querySelectorAll(".operator-button")];
     const equalsButton = document.querySelector(".equals");
@@ -50,6 +50,10 @@ function clickAButton (previousResult = 0) {
     let incompleteNumber = [];
     let operation = [];
     let number = previousResult;
+
+    if(lastOperatorPressed !== null) {
+        operation = [previousResult, lastOperatorPressed]
+    }
 
     clearButton.addEventListener("click", () => clear());
 
@@ -62,14 +66,16 @@ function clickAButton (previousResult = 0) {
     }));
 
     decimalButton.addEventListener("click", () => {
-        incompleteNumber.push(decimalButton.textContent); //textContent is the number listed on each button
+        incompleteNumber.push(decimalButton.textContent); //textContent = "."
         number = parseFloat(incompleteNumber.join(""));
         display.textContent = number;
     }, {once : true})
 
     operatorButton.forEach(button => button.addEventListener("click", () => {
         operation.push(number);
-        if(operation.length < 2 ) operation.push(button.textContent); //textContent is the operator listed on each button
+        if(operation.length > 2 ) {
+        displayResult(operation, button.textContent)};
+        operation.push(button.textContent); //textContent is the operator listed on each button
         incompleteNumber = [];
     }));
 
@@ -79,17 +85,21 @@ function clickAButton (previousResult = 0) {
         incompleteNumber = [];
     });  
 
+    return;
+
 }
 
-function displayResult(operation) {
+function displayResult(operation, lastOperatorPressed = null) {
     result = operate(operation[0], operation[1], operation[2]);
     document.querySelector(".result").textContent = result;
-    clickAButton(result);
+    clickAButton(result, lastOperatorPressed);
+    return;
 }
 
 function clear() {
     document.querySelector(".result").textContent = 0;
     clickAButton(0);
+    return;
 }
 
 function backspace(number) {
@@ -104,6 +114,7 @@ function backspace(number) {
 
     display.textContent = newNumber;
     clickAButton(newNumber);
+    return;
 }
 
 
