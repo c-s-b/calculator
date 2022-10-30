@@ -100,10 +100,13 @@ function clickAButton () {
         if (incompleteNumber.length === 0) {
             incompleteNumber.push(0);
         }
+        if (!incompleteNumber.includes(".")){
         incompleteNumber.push(decimalButton.textContent); //textContent = "."
         currentNumber = parseFloat(incompleteNumber.join(""));
-        displayNumber(currentNumber);    
-    }, {once : true})
+        displayNumber(currentNumber);
+        }
+        
+    });
 
     operatorButton.forEach(button => {
         button.addEventListener("click", () => {  
@@ -182,7 +185,6 @@ function clickAButton () {
 function displayNumber(currentNumber) {
     const display = document.querySelector(".result");
     const numOfDigits = String(currentNumber).length;
-    console.log(numOfDigits);
     if (numOfDigits > 8) {
         let roundedNumber = String(currentNumber).slice(0, 9);
         display.textContent = parseFloat(roundedNumber);
@@ -195,12 +197,6 @@ function displayNumber(currentNumber) {
 function getResult(operation) {
     let result = operate(operation.number1, operation.operator, operation.number2);
     return result;
-}
-
-function clear() {
-    document.querySelector(".result").textContent = 0;
-    clickAButton(0);
-    return;
 }
 
 function backspace(currentNumber) {
