@@ -59,14 +59,12 @@ function clickAButton () {
             incompleteNumber = [];
             operation = {};
             currentNumber = 0;
-            displayNumber(currentNumber);
         };
     });
 
     backspaceButton.addEventListener("click", () => {
         currentNumber = backspace(currentNumber)
         incompleteNumber = [];
-        if(currentNumber === 0) clear();
     });
 
     document.addEventListener("keyup", (e) => {
@@ -109,15 +107,13 @@ function clickAButton () {
     operatorButton.forEach(button => {
         button.addEventListener("click", () => {  
             changeButtonColor();
-            if(operation.number1 === null){
+            if(!operation.number1 && operation.number1 !== 0){
                 operation.number1 = currentNumber;        
                 operation.operator = button.textContent     
                 incompleteNumber = [];//erases the stored keypresses prior to the operator
                 currentNumber = null; //will set number2 to null if  consecutive operators are clicked
-                console.log(operation);
             } else if(currentNumber === null) {
                 operation.operator = button.textContent;//prevents using the same number twice after consecutive operators
-                console.log(operation);
             } else {
                 operation.number2 = currentNumber;
                 result = getResult(operation);
@@ -127,7 +123,6 @@ function clickAButton () {
                 operation.number1 = result;
                 incompleteNumber = [];  //erases the stored keypresses prior to the operator
                 currentNumber = null; //will set number2 to null if consecutive operators are clicked
-                console.log(operation);
             } 
         });
         document.addEventListener("keyup", (e) => {  
@@ -198,13 +193,11 @@ function displayNumber(currentNumber) {
             roundedNumber = Math.floor(roundedNumber*1000)/1000;
         }
         display.textContent = roundedNumber;
-        console.log(currentNumber);
     } else if (isNaN(currentNumber) || !currentNumber) {
         display.textContent = 0;
-        console.log(currentNumber);
     } else {
         display.textContent = currentNumber;
-        console.log(currentNumber);
+
     };
 }
 
