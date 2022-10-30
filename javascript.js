@@ -181,7 +181,15 @@ function clickAButton () {
 
 function displayNumber(currentNumber) {
     const display = document.querySelector(".result");
-    display.textContent = currentNumber;
+    const numOfDigits = String(currentNumber).length;
+    console.log(numOfDigits);
+    if (numOfDigits > 8) {
+        let roundedNumber = String(currentNumber).slice(0, 9);
+        display.textContent = parseFloat(roundedNumber);
+        alert("this number did not fit entirely into calculator screen");
+    } else {
+        display.textContent = parseFloat(currentNumber);
+    };
 }
 
 function getResult(operation) {
