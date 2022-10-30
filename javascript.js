@@ -1,25 +1,21 @@
 function add( number1 , number2 ) {
-    let sum = number1 + number2;
-    return sum;
+    return number1 + number2;
 };
 
 function subtract( number1 , number2 ) {
-    const difference =  number1 - number2;
-    return difference;
+    return  number1 - number2;
 };
 
 function multiply( number1 , number2 ) {
-    let product =  number1 * number2;
-    return product;
+    return number1 * number2;
+
 };
 
 function divide( number1 , number2 ) {
-    const quotient =  number1 / number2;
-    if(quotient === Infinity || isNaN(quotient)) {
+    if(!number1 || !number2) {
         alert("stop f*&^ing dividing by zero");
-        return 0;
     }
-    return quotient;
+    return number1 / number2;;
 };
 //number parameters default to null to avoid NaN output
 function operate( number1, operator, number2) {
@@ -110,6 +106,7 @@ function clickAButton () {
 
     operatorButton.forEach(button => {
         button.addEventListener("click", () => {  
+            changeButtonColor();
             if(!operation.number1){
                 operation.number1 = currentNumber;        
                 operation.operator = button.textContent     
@@ -130,6 +127,7 @@ function clickAButton () {
         });
         document.addEventListener("keyup", (e) => {  
             if(e.key == button.textContent){ 
+                changeButtonColor ();
                 if(!operation.number1){
                     operation.number1 = currentNumber;        
                     operation.operator = button.textContent     
@@ -162,6 +160,7 @@ function clickAButton () {
             currentNumber = result;
             incompleteNumber = [];//erases the stored keypresses prior to the operator
         }
+        changeBackground();
     }); 
     document.addEventListener("keyup", (e) => {
         if(e.key == "=" || e.key == "Enter") {
@@ -175,6 +174,7 @@ function clickAButton () {
                 currentNumber = result;
                 incompleteNumber = [];//erases the stored keypresses prior to the operator
             };
+            changeBackground();
         };
     }); 
 
@@ -189,8 +189,13 @@ function displayNumber(currentNumber) {
         let roundedNumber = String(currentNumber).slice(0, 9);
         display.textContent = parseFloat(roundedNumber);
         alert("this number did not fit entirely into calculator screen");
+        console.log(currentNumber);
+    } else if (isNaN(currentNumber) || !currentNumber) {
+        display.textContent = 0;
+        console.log(currentNumber);
     } else {
         display.textContent = parseFloat(currentNumber);
+        console.log(currentNumber);
     };
 }
 
@@ -211,4 +216,46 @@ function backspace(currentNumber) {
     return newNumber;
 }
 
+function changeBackground (){
+    const background = document.querySelector("body");
+    background.style.backgroundColor = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
+}
+
+function playSound () {
+    const buttons = [...document.querySelectorAll("button")];
+    const sound = document.getElementById("beep");
+    keyPressArray = ["1","2","3","4","5","6","7","8","9","0","=","+","-","*","/","Enter","Backspace","Delete"];
+
+    buttons.forEach(button => {
+        button.addEventListener( "mousedown", () => {
+            sound.playbackRate = 3.0;
+            sound.play();
+        });
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if(keyPressArray.includes(e.key)) {
+            sound.playbackRate = 3.0;
+            sound.play();
+        };
+    });
+}
+
+function changeButtonColor () {
+    const numberButton = [...document.querySelectorAll(".number-button")];
+    const operatorButton = [...document.querySelectorAll(".operator-button")];
+    const equalButton = [...document.querySelectorAll(".lower-button")];
+    const eraseButton = [...document.querySelectorAll(".erase-button")];
+    operatorButtonColor = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`
+    numberButtonColor = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`
+    equalButtonColor = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`
+    eraseButtonColor = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`
+    
+    numberButton.forEach(button => button.style.backgroundColor = numberButtonColor);
+    operatorButton.forEach(button => button.style.backgroundColor = operatorButtonColor);
+    equalButton.forEach(button => button.style.backgroundColor = equalButtonColor);
+    eraseButton.forEach(button => button.style.backgroundColor = eraseButtonColor);
+}
+
 clickAButton();
+playSound();

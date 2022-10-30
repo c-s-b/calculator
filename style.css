@@ -96,13 +96,11 @@ button {
 }
 
 .number-button {
-    background-image:
-    linear-gradient(#a56f6d, #813126);  
+    background-color:#a04643;  
 }
 
 .operator-button {
-    background-image:
-    linear-gradient(#6d6ea5, #263481);  
+    background-color: #d89b17;  
 }
 
 nav {
