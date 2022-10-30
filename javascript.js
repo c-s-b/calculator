@@ -167,7 +167,7 @@ function clickAButton () {
             if(currentNumber === null) {
                 displayNumber(operation.number1);
             } else {
-                operation.number2 = currentNumber();
+                operation.number2 = currentNumber;
                 result = getResult(operation);
                 displayNumber(result);
                 operation = {};
