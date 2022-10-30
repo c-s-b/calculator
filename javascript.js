@@ -101,12 +101,16 @@ function clickAButton () {
     }));
 
     equalsButton.addEventListener("click", () => {
+        if(currentNumber === null) {
+            displayNumber(operation.number1);
+        } else {
         operation.number2 = currentNumber;
         result = getResult(operation);
         displayNumber(result);
         operation = {};
         currentNumber = result;
         incompleteNumber = [];//erases the stored keypresses prior to the operator
+        }
     });  
 
 }
