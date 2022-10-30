@@ -64,11 +64,20 @@ function clickAButton () {
         if(currentNumber === 0) clear();
     });
 
-    numberButton.forEach(button => button.addEventListener("click", () => {
-        incompleteNumber.push(button.textContent);
-        currentNumber = parseFloat(incompleteNumber.join(""));
-        displayNumber(currentNumber);     
-    }));
+       
+    numberButton.forEach(button => {
+        button.addEventListener("click", () => {  
+            incompleteNumber.push(button.textContent);
+            currentNumber = parseFloat(incompleteNumber.join(""));
+            displayNumber(currentNumber);   
+        });
+        document.addEventListener("keydown", (e) => {  
+            if(e.key == button.textContent){
+                incompleteNumber.push(button.textContent);
+                currentNumber = parseFloat(incompleteNumber.join(""));
+                displayNumber(currentNumber);  
+        }});  
+    });
 
     decimalButton.addEventListener("click", () => {
         if (incompleteNumber.length === 0) {
@@ -79,41 +88,63 @@ function clickAButton () {
         displayNumber(currentNumber);    
     }, {once : true})
 
-    operatorButton.forEach(button => button.addEventListener("click", () => {  
-        if(!operation.number1){
-            operation.number1 = currentNumber;        
-            operation.operator = button.textContent     
-            incompleteNumber = [];//erases the stored keypresses prior to the operator
-            currentNumber = null; //will set number2 to null if  consecutive operators are clicked
-        } else if(currentNumber === null) {
-            operation.operator = button.textContent;//prevents using the same number twice after consecutive operators
-        } else {
-            operation.number2 = currentNumber;
-            result = getResult(operation);
-            displayNumber(result)
-            operation = {};
-            operation.operator = button.textContent;
-            operation.number1 = result;
-            incompleteNumber = [];  //erases the stored keypresses prior to the operator
-            currentNumber = null; //will set number2 to null if consecutive operators are clicked
-        }
-
-    }));
-
+    operatorButton.forEach(button => {
+        button.addEventListener("click", () => {  
+            if(!operation.number1){
+                operation.number1 = currentNumber;        
+                operation.operator = button.textContent     
+                incompleteNumber = [];//erases the stored keypresses prior to the operator
+                currentNumber = null; //will set number2 to null if  consecutive operators are clicked
+            } else if(currentNumber === null) {
+                operation.operator = button.textContent;//prevents using the same number twice after consecutive operators
+            } else {
+                operation.number2 = currentNumber;
+                result = getResult(operation);
+                displayNumber(result)
+                operation = {};
+                operation.operator = button.textContent;
+                operation.number1 = result;
+                incompleteNumber = [];  //erases the stored keypresses prior to the operator
+                currentNumber = null; //will set number2 to null if consecutive operators are clicked
+            }
+        });
+        document.addEventListener("keydown", (e) => {  
+            if(e.key == button.textContent){ 
+                if(!operation.number1){
+                    operation.number1 = currentNumber;        
+                    operation.operator = button.textContent     
+                    incompleteNumber = [];//erases the stored keypresses prior to the operator
+                    currentNumber = null; //will set number2 to null if  consecutive operators are clicked
+                } else if(currentNumber === null) {
+                    operation.operator = button.textContent;//prevents using the same number twice after consecutive operators
+                } else {
+                    operation.number2 = currentNumber;
+                    result = getResult(operation);
+                    displayNumber(result)
+                    operation = {};
+                    operation.operator = button.textContent;
+                    operation.number1 = result;
+                    incompleteNumber = [];  //erases the stored keypresses prior to the operator
+                    currentNumber = null; //will set number2 to null if consecutive operators are clicked
+                }
+            };
+        });
+    });
     equalsButton.addEventListener("click", () => {
         if(currentNumber === null) {
             displayNumber(operation.number1);
         } else {
-        operation.number2 = currentNumber;
-        result = getResult(operation);
-        displayNumber(result);
-        operation = {};
-        currentNumber = result;
-        incompleteNumber = [];//erases the stored keypresses prior to the operator
+            operation.number2 = currentNumber;
+            result = getResult(operation);
+            displayNumber(result);
+            operation = {};
+            currentNumber = result;
+            incompleteNumber = [];//erases the stored keypresses prior to the operator
         }
     });  
 
 }
+
 
 function displayNumber(currentNumber) {
     const display = document.querySelector(".result");
@@ -142,6 +173,5 @@ function backspace(currentNumber) {
     displayNumber(newNumber);
     return newNumber;
 }
-
 
 clickAButton();
