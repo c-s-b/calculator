@@ -58,10 +58,27 @@ function clickAButton () {
         displayNumber(currentNumber);
     });
 
+    document.addEventListener("keyup", (e) => {
+        if(e.key == "Delete") {
+            incompleteNumber = [];
+            operation = {};
+            currentNumber = 0;
+            displayNumber(currentNumber);
+        };
+    });
+
     backspaceButton.addEventListener("click", () => {
         currentNumber = backspace(currentNumber)
         incompleteNumber = [];
         if(currentNumber === 0) clear();
+    });
+
+    document.addEventListener("keyup", (e) => {
+        if(e.key == "Backspace") {
+            currentNumber = backspace(currentNumber)
+            incompleteNumber = [];
+            if(currentNumber === 0) clear();
+        };
     });
 
        
@@ -71,7 +88,7 @@ function clickAButton () {
             currentNumber = parseFloat(incompleteNumber.join(""));
             displayNumber(currentNumber);   
         });
-        document.addEventListener("keydown", (e) => {  
+        document.addEventListener("keyup", (e) => {  
             if(e.key == button.textContent){
                 incompleteNumber.push(button.textContent);
                 currentNumber = parseFloat(incompleteNumber.join(""));
@@ -106,9 +123,9 @@ function clickAButton () {
                 operation.number1 = result;
                 incompleteNumber = [];  //erases the stored keypresses prior to the operator
                 currentNumber = null; //will set number2 to null if consecutive operators are clicked
-            }
+            } 
         });
-        document.addEventListener("keydown", (e) => {  
+        document.addEventListener("keyup", (e) => {  
             if(e.key == button.textContent){ 
                 if(!operation.number1){
                     operation.number1 = currentNumber;        
@@ -130,6 +147,7 @@ function clickAButton () {
             };
         });
     });
+
     equalsButton.addEventListener("click", () => {
         if(currentNumber === null) {
             displayNumber(operation.number1);
@@ -141,7 +159,22 @@ function clickAButton () {
             currentNumber = result;
             incompleteNumber = [];//erases the stored keypresses prior to the operator
         }
-    });  
+    }); 
+    document.addEventListener("keyup", (e) => {
+        if(e.key == "=" || e.key == "Enter") {
+            if(currentNumber === null) {
+                displayNumber(operation.number1);
+            } else {
+                operation.number2 = currentNumber;
+                result = getResult(operation);
+                displayNumber(result);
+                operation = {};
+                currentNumber = result;
+                incompleteNumber = [];//erases the stored keypresses prior to the operator
+            };
+        };
+    }); 
+
 
 }
 
