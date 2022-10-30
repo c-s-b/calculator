@@ -108,10 +108,12 @@ button {
 nav {
     text-align: right;
     padding: 20px;
+    padding-top: 10px;
     margin: 0;
     display:flex;
     justify-content: center;
     align-content: center;
+    margin-bottom: 0;
 }
 a {
   margin-left: auto;
@@ -127,4 +129,10 @@ h1 {
     font-size: 48px;
     margin-left: auto; 
     flex: 1 0 auto;
+}
+
+footer {
+    padding-top: 5px;
+    text-align: center;
+    margin: 0;
 }
