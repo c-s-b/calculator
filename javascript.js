@@ -104,6 +104,22 @@ function clickAButton () {
         
     });
 
+    document.addEventListener("keyup", (e) => {
+        if(e.key == ".") {
+            if (incompleteNumber.length === 0) {
+                incompleteNumber.push(0);
+                currentNumber = incompleteNumber.join("");
+                displayNumber(currentNumber);
+            }
+            if (!incompleteNumber.includes(".")){
+            incompleteNumber.push(decimalButton.textContent); //textContent = "."
+            currentNumber = incompleteNumber.join("");
+            displayNumber(currentNumber);
+            }
+            
+        };
+    });
+
     operatorButton.forEach(button => {
         button.addEventListener("click", () => {  
             changeButtonColor();
@@ -162,8 +178,8 @@ function clickAButton () {
         }
         changeBackground();
     }); 
-    document.addEventListener("keyup", (e) => {
-        if(e.key == "=" || e.key == "Enter") {
+    document.addEventListener("keydown", (e) => {
+        if(e.key == "Enter" || e.key == "=") {
             if(currentNumber === null) {
                 displayNumber(operation.number1);
             } else {
