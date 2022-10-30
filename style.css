@@ -104,3 +104,27 @@ button {
     background-image:
     linear-gradient(#6d6ea5, #263481);  
 }
+
+nav {
+    text-align: right;
+    padding: 20px;
+    margin: 0;
+    display:flex;
+    justify-content: center;
+    align-content: center;
+}
+a {
+  margin-left: auto;
+  padding: 0;
+  flex: 1;
+  font-size: 20px;
+}
+
+
+h1 {
+    padding: 0;
+    margin: 0;
+    font-size: 48px;
+    margin-left: auto; 
+    flex: 1 0 auto;
+}
