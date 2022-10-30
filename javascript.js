@@ -109,13 +109,15 @@ function clickAButton () {
     operatorButton.forEach(button => {
         button.addEventListener("click", () => {  
             changeButtonColor();
-            if(!operation.number1){
+            if(operation.number1 === null){
                 operation.number1 = currentNumber;        
                 operation.operator = button.textContent     
                 incompleteNumber = [];//erases the stored keypresses prior to the operator
                 currentNumber = null; //will set number2 to null if  consecutive operators are clicked
+                console.log(operation);
             } else if(currentNumber === null) {
                 operation.operator = button.textContent;//prevents using the same number twice after consecutive operators
+                console.log(operation);
             } else {
                 operation.number2 = currentNumber;
                 result = getResult(operation);
@@ -125,6 +127,7 @@ function clickAButton () {
                 operation.number1 = result;
                 incompleteNumber = [];  //erases the stored keypresses prior to the operator
                 currentNumber = null; //will set number2 to null if consecutive operators are clicked
+                console.log(operation);
             } 
         });
         document.addEventListener("keyup", (e) => {  
