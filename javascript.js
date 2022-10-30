@@ -81,13 +81,13 @@ function clickAButton () {
     numberButton.forEach(button => {
         button.addEventListener("click", () => {  
             incompleteNumber.push(button.textContent);
-            currentNumber = parseFloat(incompleteNumber.join(""));
+            currentNumber = incompleteNumber.join("");
             displayNumber(currentNumber);   
         });
         document.addEventListener("keyup", (e) => {  
             if(e.key == button.textContent){
                 incompleteNumber.push(button.textContent);
-                currentNumber = parseFloat(incompleteNumber.join(""));
+                currentNumber = incompleteNumber.join("");
                 displayNumber(currentNumber);  
         }});  
     });
@@ -95,10 +95,12 @@ function clickAButton () {
     decimalButton.addEventListener("click", () => {
         if (incompleteNumber.length === 0) {
             incompleteNumber.push(0);
+            currentNumber = incompleteNumber.join("");
+            displayNumber(currentNumber);
         }
         if (!incompleteNumber.includes(".")){
         incompleteNumber.push(decimalButton.textContent); //textContent = "."
-        currentNumber = parseFloat(incompleteNumber.join(""));
+        currentNumber = incompleteNumber.join("");
         displayNumber(currentNumber);
         }
         
@@ -167,7 +169,7 @@ function clickAButton () {
             if(currentNumber === null) {
                 displayNumber(operation.number1);
             } else {
-                operation.number2 = currentNumber;
+                operation.number2 = currentNumber();
                 result = getResult(operation);
                 displayNumber(result);
                 operation = {};
@@ -187,20 +189,24 @@ function displayNumber(currentNumber) {
     const numOfDigits = String(currentNumber).length;
     if (numOfDigits > 8) {
         let roundedNumber = String(currentNumber).slice(0, 9);
-        display.textContent = parseFloat(roundedNumber);
-        alert("this number did not fit entirely into calculator screen");
+        if(roundedNumber.charAt(roundedNumber.length-1) >= 5) {
+            roundedNumber = Math.ceil(roundedNumber*1000)/1000;
+        } else {
+            roundedNumber = Math.floor(roundedNumber*1000)/1000;
+        }
+        display.textContent = roundedNumber;
         console.log(currentNumber);
     } else if (isNaN(currentNumber) || !currentNumber) {
         display.textContent = 0;
         console.log(currentNumber);
     } else {
-        display.textContent = parseFloat(currentNumber);
+        display.textContent = currentNumber;
         console.log(currentNumber);
     };
 }
 
 function getResult(operation) {
-    let result = operate(operation.number1, operation.operator, operation.number2);
+    let result = operate(parseFloat(operation.number1), operation.operator, parseFloat(operation.number2));
     return result;
 }
 
